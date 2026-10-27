@@ -149,5 +149,3 @@ const CompanySetup = () => {
 }
 
 export default CompanySetup
-
-// 10:13:10
