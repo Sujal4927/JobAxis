@@ -42,4 +42,3 @@ const Applicants = () => {
 
 export default Applicants
 
-// 12:03:25
