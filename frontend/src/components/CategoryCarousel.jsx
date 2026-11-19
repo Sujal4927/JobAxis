@@ -17,7 +17,7 @@ const CategoryCarousel = () => {
     }
 
     return (
-        <div>
+        <div className="hidden md:block">
             <Carousel className="w-full max-w-xl mx-auto my-20">
                 <CarouselContent>
                     {
