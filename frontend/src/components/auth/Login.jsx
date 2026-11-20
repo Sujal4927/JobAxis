@@ -58,8 +58,8 @@ const Login = () => {
   return (
     <div>
       <Navbar />
-      <div className="flex items-center justify-center mx-auto max-w-7xl">
-        <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
+      <div className="flex items-center justify-center w-full min-w-100 max-w-7xl mx-auto">
+        <form onSubmit={submitHandler} className='md:w-1/2 border border-gray-400 rounded-md p-4 my-10 shadow-[0_8px_30px_rgba(0,0,0,0.15)]'>
           <h1 className='font-bold text-xl mb-5'>Login</h1>
           <div className="my-2">
             <Label>Email</Label>
@@ -78,6 +78,7 @@ const Login = () => {
               value={input.password}
               name="password"
               onChange={changeEventHandler}
+              placeholder="********"
               className="mt-2" />
           </div>
           <div className="flex items-center justify-between">

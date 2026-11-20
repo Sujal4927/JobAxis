@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Button } from '../ui/button'
 import { Avatar, AvatarImage } from '../ui/avatar'
-import { LogOut, User2 } from 'lucide-react'
+import { LogOut, Menu, User2, X } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
@@ -11,6 +11,9 @@ import { USER_API_END_POINT } from '@/utils/constant'
 import { setUser } from '@/redux/authSlice'
 
 const Navbar = () => {
+
+    const [isMoblieMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const { user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -32,10 +35,10 @@ const Navbar = () => {
     return (
         <div className='bg-white'>
             <div className="flex items-center justify-between mx-auto max-w-6xl h-16">
-                <div className="">
+                <div className="px-3">
                     <h1 className='text-2xl font-bold'>Job<span className='text-[#F83002]'>Axis</span></h1>
                 </div>
-                <div className="flex items-center gap-12">
+                <div className="hidden md:flex items-center gap-12">
                     <ul className='flex font-medium items-center gap-5'>
                         {
                             user && user.role === "recruiter" ? (
@@ -99,7 +102,39 @@ const Navbar = () => {
                     }
 
                 </div>
+
+                {/* Mobile menu button */}
+                <button className="md:hidden p-3 cursor-pointer" onClick={() => setIsMobileMenuOpen((prev) => !prev)}>
+                    {isMoblieMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
+
+            {/* Mobile Menu */}
+            {isMoblieMenuOpen && (
+                <div className="md:hidden absolute bg-white w-full animate-fade-in">
+                    <div className="container px-6 py-6 flex flex-col mx-auto items-center">
+                        <ul className="items-center cursor-pointer ">
+                            <li className="py-2 pl-3 hover:bg-muted-foreground rounded-xl">
+                                <Link to="/">Home</Link>
+                            </li>
+                            <li className="py-2 pl-3 hover:bg-muted-foreground rounded-xl">
+                                <Link to="/jobs">Jobs</Link>
+                            </li>
+                            <li className="py-2 px-2 my-0.5 hover:bg-muted-foreground rounded-xl">
+                                <Link to="/browse">Browse</Link>
+                            </li>
+                        </ul>
+                        <div className="flex flex-col">
+                            <Link to="/login">
+                                <Button variant='outline' className="mb-1 cursor-pointer">Log in</Button>
+                            </Link>
+                            <Link to="/signup">
+                                <Button className="bg-[#6A38C2] hover:bg-[#5b30a6] my-0.5 cursor-pointer">Sign up</Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>)
+            }
         </div>
     )
 }
