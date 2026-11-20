@@ -113,27 +113,80 @@ const Navbar = () => {
             {isMoblieMenuOpen && (
                 <div className="md:hidden absolute bg-white w-full animate-fade-in">
                     <div className="container px-6 py-6 flex flex-col mx-auto items-center">
-                        <ul className="items-center cursor-pointer ">
-                            <li className="py-2 pl-3 hover:bg-muted-foreground rounded-xl">
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li className="py-2 pl-3 hover:bg-muted-foreground rounded-xl">
-                                <Link to="/jobs">Jobs</Link>
-                            </li>
-                            <li className="py-2 px-2 my-0.5 hover:bg-muted-foreground rounded-xl">
-                                <Link to="/browse">Browse</Link>
-                            </li>
+                        <ul className="items-center cursor-pointer">
+                            {
+                                user && user.role === "recruiter" ?
+                                    (
+                                        <>
+                                            <li><Link to="/admin/companies">Companies</Link></li>
+                                            <li><Link to="/admin/jobs">Jobs</Link></li>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <li className="py-2 pl-3 hover:bg-muted-foreground rounded-xl">
+                                                <Link to="/">Home</Link>
+                                            </li>
+                                            <li className="py-2 pl-3 hover:bg-muted-foreground rounded-xl">
+                                                <Link to="/jobs">Jobs</Link>
+                                            </li>
+                                            <li className="py-2 px-2 my-0.5 hover:bg-muted-foreground rounded-xl">
+                                                <Link to="/browse">Browse</Link>
+                                            </li>
+                                        </>
+                                    )
+                            }
                         </ul>
-                        <div className="flex flex-col">
-                            <Link to="/login">
-                                <Button variant='outline' className="mb-1 cursor-pointer">Log in</Button>
-                            </Link>
-                            <Link to="/signup">
-                                <Button className="bg-[#6A38C2] hover:bg-[#5b30a6] my-0.5 cursor-pointer">Sign up</Button>
-                            </Link>
-                        </div>
+                        {
+                            !user ? (
+                                <div className="flex flex-col">
+                                    <Link to="/login">
+                                        <Button variant='outline' className="mb-1 cursor-pointer">Log in</Button>
+                                    </Link>
+                                    <Link to="/signup">
+                                        <Button className="bg-[#6A38C2] hover:bg-[#5b30a6] my-0.5 cursor-pointer">Sign up</Button>
+                                    </Link>
+                                </div>
+                            ) : (
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Avatar className="cursor-pointer">
+                                            <AvatarImage src={user?.profile?.profilePhoto} />
+                                        </Avatar>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-80">
+                                        <div className="">
+                                            <div className="flex gap-2 space-y-2">
+                                                <Avatar className="cursor-pointer shadow-xl">
+                                                    <AvatarImage src={user?.profile?.profilePhoto} />
+                                                </Avatar>
+                                                <div className="">
+                                                    <h4 className='font-medium'>{user?.fullname}</h4>
+                                                    <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex flex-col my-2 text-gray-600">
+                                                {
+                                                    user && user.role === "student" && (
+                                                        <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                            <User2 />
+                                                            <Button variant="link"><Link to="/profile">View Profile</Link></Button>
+                                                        </div>
+                                                    )
+                                                }
+                                                <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                    <LogOut />
+                                                    <Button onClick={logoutHandler} variant="link" className="cursor-pointer">Logout</Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                            )
+                        }
                     </div>
-                </div>)
+                </div>
+            )
             }
         </div>
     )
